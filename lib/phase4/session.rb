@@ -11,7 +11,7 @@ module Phase4
     end
 
     def [](key)
-      @session[key]
+      @session[key] || @session[key.to_s]
     end
 
     def []=(key, val)

@@ -1,3 +1,5 @@
+require 'byebug'
+
 module Phase6
   class Route
     attr_reader :pattern, :http_method, :controller_class, :action_name
@@ -23,6 +25,10 @@ module Phase6
       route_params = {}
       match_data.names.each { |name| route_params[name] = match_data[name]}
       controller = controller_class.new(req, res, route_params)
+      if ["POST","PUT","DELETE","PATCH"].include?(req.request_method) &&
+      controller.forgery_protect
+        raise "Invalid Authenticity Token" unless controller.valid_authenticity_token?
+      end
       controller.invoke_action(action_name)
     end
   end

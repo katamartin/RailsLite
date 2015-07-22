@@ -6,7 +6,8 @@ class Flash
   end
 
   def [](value)
-    @flash_old[value] || @flash_old[value.to_s]
+    @flash_old[value] || @flash_old[value.to_s] ||
+    @flash_new[value] || @flash_new[value.to_s]
   end
 
   def []=(key, value)
